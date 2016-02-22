@@ -1,0 +1,20 @@
+TellMeAJoke tell me a dad joke please
+TellMeAJoke tell me a dad joke
+TellMeAJoke tell me a joke please
+TellMeAJoke tell me a joke
+TellMeAJoke tell a joke please
+TellMeAJoke tell a joke
+TellMeAJoke joke please
+TellMeAJoke	joke
+
+TellMeAnotherJoke yes
+TellMeAnotherJoke yeah
+TellMeAnotherJoke ok
+TellMeAnotherJoke yep
+TellMeAnotherJoke yup
+TellMeAnotherJoke sure
+TellMeAnotherJoke yes please
+
+AMAZON.StopIntent no
+AMAZON.StopIntent nada
+AMAZON.StopIntent nope
