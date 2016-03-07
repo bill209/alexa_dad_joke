@@ -13,50 +13,41 @@
  *  Alexa: "OK, but no pain, no gain."
  */
 
-// library of bad jokes
-var dad_jokes = [
-	"this is joke one",
-	"joke number two",
-	"three jokes!"
-]
-
+var DJ = require('./dadJokeSvc');
 var APP_ID = undefined;//replace with 'amzn1.echo-sdk-ams.app.[your-unique-value-here]';
 
-// The AlexaSkill prototype and helper functions
 var AlexaSkill = require('./AlexaSkill');
-
-// setup patternSkill
-var patternSkill = function () {
+var alexaSkill = function () {
 	AlexaSkill.call(this, APP_ID);
 };
 
-patternSkill.prototype = Object.create(AlexaSkill.prototype);
-patternSkill.prototype.constructor = patternSkill;
+alexaSkill.prototype = Object.create(AlexaSkill.prototype);
+alexaSkill.prototype.constructor = alexaSkill;
 
-patternSkill.prototype.eventHandlers.onSessionStarted = function (sessionStartedRequest, session) {
+alexaSkill.prototype.eventHandlers.onSessionStarted = function (sessionStartedRequest, session) {
 	// standard phrasing
 	session.attributes.helpText = "Alexa can tell you a dad quality joke, just ask her to tell you a joke.";
 	session.attributes.cardTitle = "Dad Joke!";
 	session.attributes.repromptText = "Don't be shy, would you like a dad joke?";
 	session.attributes.speechText = "Would you like a dad joke?";
 	session.attributes.cardOutput = "Would you like a dad joke?";
-	session.attributes.stopText = "OK, but no pain, no gain.";
+	session.attributes.noMoreJokesText = "OK, but no pain, no gain.";
+	session.attributes.stopText = "Bye bye.";
 };
 
 // default intent
-patternSkill.prototype.eventHandlers.onLaunch = function (session, response) {
+alexaSkill.prototype.eventHandlers.onLaunch = function (session, response) {
 	startDialog(response);
 };
 
 // intent handlers
-patternSkill.prototype.intentHandlers = {
-    "TellMeAJoke": function (intent, session, response) {
-		TellMeAJoke(session, response);
+alexaSkill.prototype.intentHandlers = {
+    "TellMeADadJoke": function (intent, session, response) {
+		TellMeADadJoke(session, response);
 	},
-	"TellMeAnotherJoke": function (intent, session, response) {
-		TellMeAJoke(session, response);
+	"AMAZON.YesIntent": function (intent, session, response) {
+		TellMeADadJoke(session, response);
 	},
-
 	"AMAZON.HelpIntent": function (intent, session, response) {
 		var speechOutput = {
 			speech: session.attributes.helpText,
@@ -67,6 +58,9 @@ patternSkill.prototype.intentHandlers = {
 			type: AlexaSkill.speechOutputType.PLAIN_TEXT
 		};
 		response.ask(speechOutput, repromptOutput);
+	},
+	"AMAZON.NoIntent": function (intent, session, response) {
+		response.tell(session.attributes.noMoreJokesText);
 	},
 	"AMAZON.StopIntent": function (intent, session, response) {
 		response.tell(session.attributes.stopText);
@@ -91,26 +85,27 @@ function startDialog(session, response) {
 }
 
 // tell a dad joke
-function TellMeAJoke(session, response) {
-	// pull a random joke from the dad_jokes array
-	joke = dad_jokes[Math.floor(Math.random()*dad_jokes.length)];
+function TellMeADadJoke(session, response) {
 
-	speechText ='<speak>' + joke + '<break time="3s"/> Would you like another?</speak>';
+	DJ.getRandomDadJoke(function(joke){
+		var speechText = "";
+		var repromptText = "would you like another?";
 
-	var speechOutput = {
-		speech: speechText,
-		type: AlexaSkill.speechOutputType.SSML
-	};
-    var repromptOutput = {
-        speech: session.attributes.repromptText,
-        type: AlexaSkill.speechOutputType.PLAIN_TEXT
-    };
-    response.askWithCard(speechOutput, repromptOutput, session.attributes.cardTitle, session.attributes.cardOutput);
+		var speechOutput = {
+			speech: '<speak>' + joke + '</speak>',
+			type: AlexaSkill.speechOutputType.SSML
+		};
+		var repromptOutput = {
+			speech: repromptText,
+			type: AlexaSkill.speechOutputType.PLAIN_TEXT
+		};
+		response.askWithCard(speechOutput, repromptOutput, "Dad Joke", speechText);
+	});
 }
 
 // Create the handler that responds to the Alexa Request.
 exports.handler = function (event, context) {
-	// Create an instance of the  patternSkill.
-	var skill = new patternSkill();
+	// Create an instance of the  alexaSkill.
+	var skill = new alexaSkill();
 	skill.execute(event, context);
 };
