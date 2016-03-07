@@ -1,0 +1,29 @@
+Dialog model for the Dad Joke app
+
+Dialog model: no initial input
+User: Alexa, ask dad
+Alexa: Hi, dad can tell you a joke, would you like a joke?
+User: "Yes"
+Alexa: "Two men and a parrot..."
+...
+User: "No"
+Alexa: "OK, but no pain, no gain."
+
+Dialog model:
+User: "Alexa, ask dad to tell me a joke"
+Alexa: "What do you call..."
+Alexa: "Would you like another joke?"
+User: "Yes"
+Alexa: "Two men and a parrot..."
+...
+User: "No"
+Alexa: "OK, but no pain, no gain."
+...
+User: response not understood
+Alexa: "I'm sorry, I did not catch that, would you like a dad joke?"
+...
+User: help
+Alexa: Would you like a dad quality joke? Just ask for a joke.
+...
+User: stop or cancel
+Alexa:Bye bye.
