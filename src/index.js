@@ -6,23 +6,24 @@
 	author: bill rowland
  */
 
-var DJ = require('./dadJokeSvc');
-var APP_ID = "amzn1.echo-sdk-ams.app.bd19edaf-2dc8-42a4-8764-e81ae8d998b4";
+var DJS = require('./dadJokeSvc');
+var KEYS = require('./keys.js');
+var APP_ID = KEYS.AppId;
+// var APP_ID = undefined;
 
 var AlexaSkill = require('./AlexaSkill');
 var alexaSkill = function () {
 	AlexaSkill.call(this, APP_ID);
 };
-console.log('*****session****',session.application.applicationId);
-
-// if (event.session.application.id !== APP_ID) {
-// 	context.fail("Invalid Application ID");
-// }
 
 alexaSkill.prototype = Object.create(AlexaSkill.prototype);
 alexaSkill.prototype.constructor = alexaSkill;
 
 alexaSkill.prototype.eventHandlers.onSessionStarted = function (sessionStartedRequest, session) {
+	// limit access to these
+	// if (event.session.application.id !== APP_ID) {
+	// 	context.fail("Invalid Application ID");
+	// }
 	// standard phrasing
 	session.attributes.speech = {};
 	session.attributes.speech.launch = "Hi, dad can tell you a joke, would you like a joke?";
@@ -85,7 +86,7 @@ function startDialog(session, response) {
 // tell a dad joke
 function TellMeADadJoke(session, response) {
 
-	DJ.getRandomDadJoke(function(joke){
+	DJS.getRandomDadJoke(function(joke){
 		var cardText = joke.replace(/ <.*?>/, ""); 	// remove any SSML code
 
 		var speechOutput = {

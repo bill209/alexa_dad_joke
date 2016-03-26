@@ -16,7 +16,6 @@
 		setTimeout(callback('bill', 3000));
 	};
 
-
 	module.exports.getRandomDadJoke = function(callback){
 		getItemCount(function(jokeIdx){
 			getDadJoke(jokeIdx, function(joke){
@@ -25,14 +24,15 @@
 		})
 	};
 
-
 	// determine how many records in the table in order
 	// to select a random one
 	function getItemCount(callback){
 		var params = {
 			TableName: TABLENAME,
 		};
-
+		// rewrite routine removing describeTable operation so you can remove 
+		// AmazonDynamoDBFullAccess policy from user
+		// ie this will require a table scan or keep a separate joke counter
 		CFG.db.describeTable(params, function(err, data) {
 			if (err) callback( { 'error' : err });
 			else callback(data.Table.ItemCount);

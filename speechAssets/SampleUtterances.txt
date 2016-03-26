@@ -7,13 +7,13 @@ TellMeAJoke tell a joke
 TellMeAJoke joke please
 TellMeAJoke	joke
 
-TellMeAnotherJoke yes
-TellMeAnotherJoke yeah
-TellMeAnotherJoke ok
-TellMeAnotherJoke yep
-TellMeAnotherJoke yup
-TellMeAnotherJoke sure
-TellMeAnotherJoke yes please
+TellMeADadJoke yes
+TellMeADadJoke yeah
+TellMeADadJoke ok
+TellMeADadJoke yep
+TellMeADadJoke yup
+TellMeADadJoke sure
+TellMeADadJoke yes please
 
 AMAZON.StopIntent no
 AMAZON.StopIntent nada
